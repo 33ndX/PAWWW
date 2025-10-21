@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Projekt 1">
+    <meta name="keywords" content="HTML5, CSS3, JavaScript">
+    <meta name="author" content="Paweł Milanowski">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../scripts/kolorujtlo.js"></script>
+    <script src="../scripts/timedate.js"></script>
+    <title>Największe budynki świata</title>
+</head>
+<body>
+    <nav>
+        <div>
+            <a href="..\index.html">
+                <img src="../pics/logo.png" alt="logo" class="logo">        
+            </a>
+        </div>
+        <ul>
+            <li><a href="..\index.html">Strona główna</a></li>
+            <li><a href=".\budynki.html">Budynki</a></li>
+            <li><a href=".\ranking.html">Ranking</a></li>
+            <li><a href=".\architektura.html">Architektura</a></li>
+            <li><a href=".\kontakt.html" class="active">Kontakt</a></li>
+        </ul>
+        <div class="nav-clock">
+            <div id='zegarek'></div>
+            <div id='data'></div>
+        </div>
+    </nav>
+
+    <main>
+        <div class="contact-container">
+            <div class="contact-form-section">
+                <h2>Formularz kontaktowy</h2>
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Imię i nazwisko *</label>
+                        <input type="text" id="name" name="name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Adres email *</label>
+                        <input type="email" id="email" name="email" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="phone">Numer telefonu</label>
+                        <input type="tel" id="phone" name="phone">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Temat *</label>
+                        <select id="subject" name="subject" required>
+                            <option value="">-- Wybierz temat --</option>
+                            <option value="pytanie">Pytanie ogólne</option>
+                            <option value="sugestia">Sugestia</option>
+                            <option value="problem">Problem techniczny</option>
+                            <option value="wspolpraca">Współpraca</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Wiadomość *</label>
+                        <textarea id="message" name="message" rows="6" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="privacy" name="privacy" required>
+                            Akceptuję politykę prywatności
+                        </label>
+                    </div>
+
+                    <button type="submit" class="submit-btn">Wyślij wiadomość</button>
+                </form>
+            </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Największe budynki na świecie</p>
+    </footer>
+</body>
+</html>

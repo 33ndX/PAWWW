@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Projekt 1">
+    <meta name="keywords" content="HTML5, CSS3, JavaScript">
+    <meta name="author" content="Paweł Milanowski">
+    <link rel="stylesheet" href="../css/style.css">
+    <script src="../scripts/kolorujtlo.js"></script>
+    <script src="../scripts/timedate.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>Największe budynki świata</title>
+</head>
+<body onload='startClock()'>
+    <nav>
+        <div>
+            <a href="..\index.html">
+                <img src="../pics/logo.png" alt="logo" class="logo">        
+            </a>
+        </div>
+        <ul>
+            <li><a href="..\index.html">Strona główna</a></li>
+            <li><a href=".\budynki.html">Budynki</a></li>
+            <li><a href=".\ranking.html" class="active">Ranking</a></li>
+            <li><a href=".\architektura.html">Architektura</a></li>
+            <li><a href=".\kontakt.html">Kontakt</a></li>
+        </ul>
+         <div class="nav-clock">
+            <div id='zegarek'></div>
+            <div id='data'></div>
+        </div>
+    </nav>
+
+    <main>
+        <h2>jQuery</h2>
+        <div id="animacjaTestowa1" class="test-block">
+            Kliknij, a się powiększe
+        </div>
+        <script>
+            $("#animacjaTestowa1").on("click", function() {
+                $(this).animate({
+                    width: "500px",
+                    opacity: 0.4,
+                    fontSize: "3em",
+                    borderwidth: "10px"
+                }, 1500)
+            })
+        </script>
+
+        <div id="animacjaTestowa2" class="test-block">
+            Najedź kursorem. a się powiększe
+        </div>
+        <script>
+            $("#animacjaTestowa2").on({
+                "mouseover" : function(){
+                    $(this).animate({
+                        width: 300
+                    }, 800)
+                },
+                "mouseout" : function(){
+                    $(this).animate({
+                        width: 200
+                    }, 800)
+                }
+            })
+        </script>
+        <div id="animacjaTestowa3" class="test-block">
+            Kliknij, abym urósł
+        </div>
+        <script>
+            $("#animacjaTestowa3").on("click", function(){
+                if (!$(this).is(":animated")){
+                    $(this).animate({
+                        width: "+=" + 50,
+                        height: "+=" + 10,
+                        opacity: "+=" + 0.1,
+                        duration: 3000
+                    })
+                }
+            })
+        </script>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Największe budynki na świecie</p>
+    </footer>
+</body>
+</html>
