@@ -1,0 +1,50 @@
+    <section>
+        <h2>jQuery</h2>
+        <div id="animacjaTestowa1" class="test-block">
+            Kliknij, a się powiększe
+        </div>
+        <script>
+            $("#animacjaTestowa1").on("click", function() {
+                $(this).animate({
+                    width: "500px",
+                    opacity: 0.4,
+                    fontSize: "3em",
+                    borderwidth: "10px"
+                }, 1500)
+            })
+        </script>
+
+        <div id="animacjaTestowa2" class="test-block">
+            Najedź kursorem. a się powiększe
+        </div>
+        <script>
+            $("#animacjaTestowa2").on({
+                "mouseover" : function(){
+                    $(this).animate({
+                        width: 300
+                    }, 800)
+                },
+                "mouseout" : function(){
+                    $(this).animate({
+                        width: 200
+                    }, 800)
+                }
+            })
+        </script>
+        <div id="animacjaTestowa3" class="test-block">
+            Kliknij, abym urósł
+        </div>
+        <script>
+            $("#animacjaTestowa3").on("click", function(){
+                if (!$(this).is(":animated")){
+                    $(this).animate({
+                        width: "+=" + 50,
+                        height: "+=" + 10,
+                        opacity: "+=" + 0.1,
+                        duration: 3000
+                    })
+                }
+            })
+        </script>
+    </section>
+
