@@ -12,8 +12,11 @@
     <script src="scripts/kolorujtlo.js"></script>
     <script src="scripts/timedate.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+        <?php
+    include('cfg.php');
+    ?>
 
-</head >
+</head>
 <body onload='startClock()'>
     <?php
     error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
@@ -68,13 +71,11 @@
     </nav>
 
     <main>
-        <?php
-        if(file_exists($strona)){
-            include($strona);
-        } else {
-            echo "<p>Podstrona jest pusta.</p>";
-        }
-        ?>    
+            <?php
+    if(isset($_GET['idp']) && $_GET['idp'] !== ''){
+        include('showpage.php');
+    }
+    ?>  
     </main>
     <?php
     $nr_indeksu = '175281';

@@ -12,38 +12,15 @@
     <script src="scripts/kolorujtlo.js"></script>
     <script src="scripts/timedate.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-</head >
-<body onload='startClock()'>
     <?php
-    error_reporting(E_ALL ^ E_NOTICE ^ E_WARNING);
-    if ($_GET['idp'] == '') {
-        $strona = 'html/main.html';
-    } elseif ($_GET['idp'] == 'main') {
-        $strona = 'html/main.html';
-    } elseif ($_GET['idp'] == 'budynki') {
-        $strona = 'html/budynki.html';
-    } elseif ($_GET['idp'] == 'ranking') {
-        $strona = 'html/ranking.html';
-    } elseif ($_GET['idp'] == 'architektura') {
-        $strona = 'html/architektura.html';
-    } elseif ($_GET['idp'] == 'kontakt') {
-        $strona = 'html/kontakt.html';
-    } elseif ($_GET['idp'] == 'skryptyJS') {
-        $strona = 'html/SkryptyJS.html';
-    } elseif ($_GET['idp'] == 'jquary') {
-        $strona = 'html/JQuary.html';
-    } elseif ($_GET['idp'] == 'filmy') {
-        $strona = 'html/filmy.html';
-    } elseif ($_GET['idp'] == 'lab4') {
-        $strona = 'html/labor_175281_ISI2.php';    
-    } else {
-        $strona = 'html/404.html';  // Plik z informacją o błędzie
-    }
-    if (!file_exists($strona)) {
-    $page = './html/404.html';
+    session_start();
+    if (!isset($_GET['idp'])) {
+        $_GET['idp'] = '1';
     }
     ?>
+
+</head>
+<body onload='startClock()'>
     <nav>
         <div>
             <a>
@@ -51,15 +28,16 @@
             </a>
         </div>
         <ul>
-            <li><a href="index.php?idp=main" >Strona główna</a></li>
-            <li><a href="index.php?idp=budynki">Budynki</a></li>
-            <li><a href="index.php?idp=ranking">Ranking</a></li>
-            <li><a href="index.php?idp=architektura">Architektura</a></li>
-            <li><a href="index.php?idp=kontakt">Kontakt</a></li>
-            <li><a href="index.php?idp=filmy">Filmy</a></li>
-            <li><a href="index.php?idp=jquary">JQuary</a></li>
-            <li><a href="index.php?idp=lab4">Lab4</a></li>
-            <li><a href="index.php?idp=skryptyJS">SkryptyJS</a></li>
+            <li><a href="index.php?idp=1" >Strona główna</a></li>
+            <li><a href="index.php?idp=2">Budynki</a></li>
+            <li><a href="index.php?idp=3">Ranking</a></li>
+            <li><a href="index.php?idp=5">Architektura</a></li>
+            <li><a href="index.php?idp=-5">Kontakt</a></li>
+            <li><a href="index.php?idp=6">Filmy</a></li>
+            <li><a href="index.php?idp=8">JQuary</a></li>
+            <li><a href="index.php?idp=10">Lab4</a></li>
+            <li><a href="index.php?idp=7">SkryptyJS</a></li>
+            <li><a href="index.php?idp=-1">Panel Admina</a></li>
         </ul>
         <div class="nav-clock">
             <div id='zegarek'></div>
@@ -68,13 +46,68 @@
     </nav>
 
     <main>
-        <?php
-        if(file_exists($strona)){
-            include($strona);
-        } else {
-            echo "<p>Podstrona jest pusta.</p>";
-        }
-        ?>    
+    <?php
+    
+    include('cfg.php');
+    include('showpage.php');
+    include('admin/admin.php');
+    include('php/contact.php');
+    
+    $id = htmlspecialchars($_GET['idp']);
+
+    
+    static $Admin = null;
+
+    switch($id) {
+        case -1:
+            if($Admin === null) {
+                $Admin = new Admin();
+            }
+            echo $Admin->LoginAdmin();
+            break;
+        
+        case -2:
+            if($Admin === null) {
+                $Admin = new Admin();
+            }
+            echo $Admin->EditPage();
+            break;
+        
+        case -3:
+            if($Admin === null) {
+                $Admin = new Admin();
+            }
+            echo $Admin->DeletePage();
+            break;
+        case -4:
+            if($Admin === null) {
+                $Admin = new Admin();
+            }
+            echo $Admin->CreatePage();
+            break;
+        case -5:
+            $contact = new Contact();
+            echo "<h1> Kontakt </h1>";
+            echo $contact->WyslijMailKontakt("pawelokej6@gmail.com");
+            break;
+        case -6:
+            if($Admin === null) {
+                $Admin = new Admin();
+            }
+            echo $Admin->Wyloguj();
+            break;
+        case -7:
+            $Contact = new Contact();
+            echo "<h2> Odzyskanie hasla </h2>";
+            echo $Contact->PrzypomnijHaslo("pawelokej6@gmail.com"); 			// Wyświetlenie promptu na email, w celu odzyskania hasła
+		    break;
+
+        default:
+            echo PokazStrone($id);
+            break;
+        
+    }
+    ?>
     </main>
     <?php
     $nr_indeksu = '175281';
