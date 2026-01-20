@@ -45,26 +45,24 @@ class Contact {
     function PokazKontakt() {
         
         $wynik = '
-            <div class="contact">
+            <div class="contact-container" style="max-width: 600px; margin: 0 auto;">
+                <h2 style="text-align:center; color:#2c3e50; margin-bottom: 20px;">Formularz Kontaktowy</h2>
                 <form method="post" name="ContactForm" enctype="multipart/form-data" action="' . $_SERVER['REQUEST_URI'] . '">
-                    <table class="contact">
-                        <tr>
-                            <td class="zaw">Email: </td>
-                            <td><input type="email" name="email" class="contact" required /></td>
-                        </tr>
-                        <tr>
-                            <td class="zaw">Tytuł: </td>
-                            <td><input type="text" name="temat" class="contact" required /></td>
-                        </tr>
-                        <tr>
-                            <td>Zawartość:</td>
-                            <td class="zaw"><textarea name="tresc" required></textarea></td>
-                        </tr>
-                        <tr>
-                            <td></td>
-                            <td><input type="submit" class="send-button" value="wyślij" /></td>
-                        </tr>
-                    </table>
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" name="email" required placeholder="Twój adres email" />
+                    </div>
+                    <div class="form-group">
+                        <label>Tytuł:</label>
+                        <input type="text" name="temat" required placeholder="Temat wiadomości" />
+                    </div>
+                    <div class="form-group">
+                        <label>Zawartość:</label>
+                        <textarea name="tresc" required rows="7" placeholder="Treść wiadomości..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" class="submit-btn" value="Wyślij wiadomość" />
+                    </div>
                 </form>
             </div>
         ';
@@ -88,21 +86,17 @@ class Contact {
     function PokazHaslo() {
         
         $wynik = '
-            <div class="passrecov">
-                <div class="passrecov">
-                    <form method="post" name="RecoveryForm" enctype="multipart/form-data" action="' . $_SERVER['REQUEST_URI'] . '">
-                        <table class="passrecov">
-                            <tr>
-                                <td class="log4_t">Email: </td>
-                                <td><input type="email" name="email_recovery" class="passrecov" required /></td>
-                            </tr>
-                            <tr>
-                                <td></td>
-                                <td><input type="submit" name="x1_submit" class="passrecov" value="wyślij" /></td>
-                            </tr>
-                        </table>
-                    </form>
-                </div>
+            <div class="contact-container" style="max-width: 400px; margin: 0 auto;">
+                <h2 style="text-align:center; color:#2c3e50; margin-bottom: 20px;">Odzyskiwanie Hasła</h2>
+                <form method="post" name="RecoveryForm" enctype="multipart/form-data" action="' . $_SERVER['REQUEST_URI'] . '">
+                    <div class="form-group">
+                        <label>Email:</label>
+                        <input type="email" name="email_recovery" required placeholder="Twój adres email" />
+                    </div>
+                    <div class="form-group">
+                        <input type="submit" name="x1_submit" class="submit-btn" value="Przypomnij hasło" />
+                    </div>
+                </form>
             </div>
         ';
         

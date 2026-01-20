@@ -51,24 +51,21 @@ class Admin {
     function FormularzLogowania() {
         
         $wynik = '
-            <div class="logowanie">
-                <h2 class="head">Zaloguj do panelu admina:</h2>
-                    <form method="post" name="LoginForm" enctype="multipart/form-data" action="' . $_SERVER['REQUEST_URI'] . '">
-                        <table class="logowanie">
-                            <tr>
-                                <td class="log4_t">Login</td>
-                                <td><input type="text" name="login" class="logowanie" /></td>
-                            </tr>
-                            <tr>
-                                <td class="log4_t">Hasło</td>
-                                <td><input type="password" name="login_pass" class="logowanie" /></td>
-                            </tr>
-                            <tr>
-                                <td> </td>
-                                <td><input type="submit" name="x1_submit" class="logowanie" value="zaloguj" /></td>
-                            </tr>
-                        </table>
-                    </form>
+            <div class="admin-container centered">
+                <h2 class="admin-header">Logowanie do Panelu</h2>
+                <form method="post" name="LoginForm" enctype="multipart/form-data" action="' . $_SERVER['REQUEST_URI'] . '">
+                    <div class="admin-form-group">
+                        <label>Login</label>
+                        <input type="text" name="login" placeholder="Wprowadź login (np. admin)" />
+                    </div>
+                    <div class="admin-form-group">
+                        <label>Hasło</label>
+                        <input type="password" name="login_pass" placeholder="Wprowadź hasło" />
+                    </div>
+                    <div class="admin-form-group">
+                        <input type="submit" name="x1_submit" class="btn btn-primary" value="Zaloguj się" style="width: 100%;" />
+                    </div>
+                </form>
             </div>
         ';
     
@@ -94,48 +91,57 @@ class Admin {
         
         global $conn;
         
-        // ---------------------------------------------------------------------
-        // ZAPYTANIE SQL - pobranie listy stron
-        // ---------------------------------------------------------------------
-        // ORDER BY id ASC - sortowanie rosnąco po ID
-        // LIMIT 100 - ograniczenie wyników dla wydajności
-        // ---------------------------------------------------------------------
         $query = "SELECT id, page_title FROM page_list ORDER BY id ASC LIMIT 100";
         $result = $conn->query($query);
         
-        // Początek kontenera HTML
-        echo '<div class="podstrony">';
-        echo "<h1 class='lista_stron'>Lista Stron</h1>";
+        echo '<div class="admin-container wide">';
         
-        // Nagłówek tabeli
+        // --- NAV BAR ---
+        echo '<div class="admin-nav">
+                <div class="admin-nav-links">
+                    <a href="?idp=-1">Pulpit Stron</a>
+                    <a href="?idp=-8">Kategorie</a>
+                    <a href="?idp=-9">Produkty</a>
+                </div>
+                <div>
+                     <a href="?idp=-1&logout=1" class="btn btn-delete" style="padding: 5px 10px; font-size: 0.8em;">Wyloguj</a>
+                </div>
+              </div>';
+        
+        echo '<h2 class="admin-header">Zarządzanie Stronami</h2>';
+        
         echo '
-            <table class="stronki">
-                <tr class="column_names">
-                    <th>ID Strony</th>
-                    <th>Tytuł Strony</th>
-                    <th>Edytuj</th>
-                    <th>Usuń</th>
-                </tr>';
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th width="5%">ID</th>
+                        <th width="55%">Tytuł Strony</th>
+                        <th width="40%">Akcje</th>
+                    </tr>
+                </thead>
+                <tbody>';
         
-        // Iteracja przez wyniki i wyświetlanie wierszy
         while ($row = $result->fetch_assoc()) {
             
-            // Zabezpieczenie wyświetlanych danych przed XSS
             $safeId = htmlspecialchars($row['id']);
             $safeTitle = htmlspecialchars($row['page_title']);
             
-            echo '<tr class="el_listy">
-                <td style="color: white;">' . $safeId . '</td>
-                <td style="color: white;">' . $safeTitle . '</td>
-                <td><a class="edit-button" href="?idp=-2&ide=' . $safeId . '">Edit</a></td>
-                <td><a class="delete-button" href="?idp=-3&idd=' . $safeId . '" onclick="return confirm(\'Czy jesteś pewien?\');">Delete</a></td>
+            echo '<tr>
+                <td><b>' . $safeId . '</b></td>
+                <td>' . $safeTitle . '</td>
+                <td>
+                    <a class="btn btn-edit" href="?idp=-2&ide=' . $safeId . '">Edytuj</a>
+                    <a class="btn btn-delete" href="?idp=-3&idd=' . $safeId . '" onclick="return confirm(\'Czy jesteś pewien?\');">Usuń</a>
+                </td>
             </tr>';
         }
         
-        echo '</table>';
+        echo '</tbody></table>';
         
-        // Przycisk do tworzenia nowej strony
-        echo '<a class="create_page" href="?idp=-4">Create New Page</a>';
+        echo '<div class="admin-actions">
+                <a class="btn btn-primary" href="?idp=-4">+ Dodaj Nową Stronę</a>
+                <a class="btn btn-success" href="?idp=-8">Zarządzaj Kategoriami</a>
+              </div>';
         echo '</div>';
     }
 
@@ -196,7 +202,7 @@ class Admin {
             return 1;
             
         } else {
-            echo "Logowanie się nie powiodło.";
+            echo '<div class="login-message msg-error">Logowanie się nie powiodło.</div>';
             return 0;
         }
     }
@@ -217,6 +223,12 @@ class Admin {
      */
     function LoginAdmin() {
         
+        // Check for logout request
+        if (isset($_GET['logout'])) {
+            $this->Wyloguj();
+            exit;
+        }
+
         // Sprawdzenie statusu logowania
         $status_login = $this->CheckLogin();
 
@@ -289,12 +301,12 @@ class Admin {
                     $stmt->bind_param("ssisi", $title, $content, $active, $alias, $id);
 
                     if ($stmt->execute()) {
-                        echo 'Strona zaktualizowana';
+                        echo '<div class="login-message msg-success">Strona zaktualizowana</div>';
                         $stmt->close();
                         header("Location: ?idp=-1");
                         exit;
                     } else {
-                        echo "Błąd: " . $stmt->error;
+                        echo '<div class="login-message msg-error">Błąd: ' . $stmt->error . '</div>';
                         $stmt->close();
                     }
                     
@@ -320,45 +332,59 @@ class Admin {
                         $stmt->close();
 
                         // Formularz HTML z zabezpieczonymi danymi (htmlspecialchars)
+                        echo '<div class="admin-container centered">';
+                        echo '<div class="admin-nav">
+                                <div class="admin-nav-links">
+                                    <a href="?idp=-1">Pulpit Stron</a>
+                                    <a href="?idp=-8">Kategorie</a>
+                                    <a href="?idp=-9">Produkty</a>
+                                </div>
+                                <div>
+                                     <a href="?idp=-1&logout=1" class="btn btn-delete" style="padding: 5px 10px; font-size: 0.8em;">Wyloguj</a>
+                                </div>
+                              </div>';
+                        
                         return '
-                            <div class="edit-container">
-                                <h3 class="edit-title">Edytuj stronę</h3>
+                                <h3 class="admin-header">Edytuj stronę</h3>
+                                
                                 <form method="post" action="' . $_SERVER['REQUEST_URI'] . '">
-                                    <div class="form-group">
-                                        <label for="edit_title">Tytuł:</label>
+                                    <div class="admin-form-group">
+                                        <label for="edit_title">Tytuł strony</label>
                                         <input type="text" id="edit_title" name="edit_title" 
                                                value="' . htmlspecialchars($row['page_title']) . '" required />
                                     </div>
-                                    <div class="form-group">
-                                        <label for="edit_content">Zawartość:</label>
-                                        <textarea id="edit_content" name="edit_content" required>' 
+                                    <div class="admin-form-group">
+                                        <label for="edit_content">Treść strony</label>
+                                        <textarea id="edit_content" name="edit_content" required rows="10">' 
                                             . htmlspecialchars($row['page_content']) . 
                                         '</textarea>
                                     </div>
-                                    <div class="form-group">
-                                        <label for="edit_active">Aktywna:</label>
-                                        <input type="checkbox" id="edit_active" name="edit_active"' 
-                                            . ($row['status'] ? ' checked' : '') . ' />
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="edit_alias">Alias:</label>
+                                    <div class="admin-form-group">
+                                        <label for="edit_alias">Alias (URLfriendly)</label>
                                         <input type="text" id="edit_alias" name="edit_alias" 
                                                value="' . htmlspecialchars($row['alias']) . '" required />
                                     </div>
-                                    <div class="form-group">
-                                        <input type="submit" class="submit-button" value="Zapisz zmiany" />
+                                    <div class="admin-form-group">
+                                        <label for="edit_active">
+                                            <input type="checkbox" id="edit_active" name="edit_active"' 
+                                            . ($row['status'] ? ' checked' : '') . ' /> Aktywna na stronie
+                                        </label>
+                                    </div>
+                                    <div class="admin-actions">
+                                        <a href="?idp=-1" class="btn btn-delete">Anuluj</a>
+                                        <input type="submit" class="btn btn-success" value="Zapisz zmiany" />
                                     </div>
                                 </form>
                             </div>';
                                     
                     } else {
                         $stmt->close();
-                        return "Nie znaleziono strony do edycji";
+                        return '<div class="login-message msg-error">Nie znaleziono strony do edycji</div>';
                     }
                 }
                 
             } else {
-                return "Nie podano ID strony do edycji";
+                return '<div class="login-message msg-error">Nie podano ID strony do edycji</div>';
             }
             
         } else {
@@ -391,8 +417,6 @@ class Admin {
         
         if ($status_login == 1) {
             
-            echo '<h3 class="create_page"> Nowa strona </h3>';
-            
             // -----------------------------------------------------------------
             // OBSŁUGA FORMULARZA POST - tworzenie nowej strony
             // -----------------------------------------------------------------
@@ -420,12 +444,12 @@ class Admin {
                 $stmt->bind_param("ssis", $title, $content, $active, $alias);
 
                 if ($stmt->execute()) {
-                    echo 'Strona utworzona pomyślnie';
+                    echo '<div class="login-message msg-success">Strona utworzona pomyślnie</div>';
                     $stmt->close();
                     header("Location: ?idp=-1");
                     exit;
                 } else {
-                    echo "Błąd: " . $stmt->error;
+                    echo '<div class="login-message msg-error">Błąd: ' . $stmt->error . '</div>';
                     $stmt->close();
                 }
                 
@@ -435,26 +459,36 @@ class Admin {
                 // WYŚWIETLENIE FORMULARZA TWORZENIA STRONY
                 // ---------------------------------------------------------
                 return '
-                    <div class="create-container">
+                    <div class="admin-container centered">
+                        <div class="admin-nav">
+                             <div class="admin-nav-links">
+                                <a href="?idp=-1">Wróć do listy</a>
+                             </div>
+                        </div>
+                        
+                        <h3 class="admin-header">Utwórz nową stronę</h3>
+                        
                         <form method="post" action="' . $_SERVER['REQUEST_URI'] . '">
-                            <div class="form-group">
-                                <label for="create_title">Tytuł:</label>
-                                <input type="text" id="create_title" name="create_title" required />
+                            <div class="admin-form-group">
+                                <label for="create_title">Tytuł strony</label>
+                                <input type="text" id="create_title" name="create_title" required placeholder="Np. O nas" />
                             </div>
-                            <div class="form-group">
-                                <label for="create_content">Zawartość:</label>
-                                <textarea id="create_content" name="create_content" required></textarea>
+                            <div class="admin-form-group">
+                                <label for="create_content">Treść strony</label>
+                                <textarea id="create_content" name="create_content" required rows="10" placeholder="Wpisz treść HTML..."></textarea>
                             </div>
-                            <div class="form-group">
-                                <label for="create_active">Aktywna:</label>
-                                <input type="checkbox" id="create_active" name="create_active" />
+                            <div class="admin-form-group">
+                                <label for="create_alias">Alias (URL)</label>
+                                <input type="text" id="create_alias" name="create_alias" required placeholder="np. o-nas" />
                             </div>
-                            <div class="form-group">
-                                <label for="create_alias">Alias:</label>
-                                <input type="text" id="create_alias" name="create_alias" required />
+                            <div class="admin-form-group">
+                                <label for="create_active">
+                                    <input type="checkbox" id="create_active" name="create_active" checked /> Strona aktywna po utworzeniu
+                                </label>
                             </div>
-                            <div class="form-group">
-                                <input type="submit" class="submit-button" value="Dodaj stronę" />
+                            <div class="admin-actions">
+                                <a href="?idp=-1" class="btn btn-delete">Anuluj</a>
+                                <input type="submit" class="btn btn-primary" value="Utwórz stronę" />
                             </div>
                         </form>
                     </div>';
@@ -508,17 +542,17 @@ class Admin {
                 $stmt->bind_param("i", $id);
 
                 if ($stmt->execute()) {
-                    echo "Strona została usunięta pomyślnie.";
+                    echo '<div class="login-message msg-success">Strona została usunięta pomyślnie.</div>';
                     $stmt->close();
                     header("Location: ?idp=-1");
                     exit;
                 } else {
-                    echo "Błąd podczas usuwania: " . $stmt->error;
+                    echo '<div class="login-message msg-error">Błąd podczas usuwania: ' . $stmt->error . '</div>';
                     $stmt->close();
                 }
                 
             } else {
-                echo "Nie podano ID strony do usunięcia.";
+                echo '<div class="login-message msg-error">Nie podano ID strony do usunięcia.</div>';
             }
             
         } else {

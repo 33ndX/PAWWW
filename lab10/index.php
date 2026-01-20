@@ -11,7 +11,7 @@
     <!-- ====================================================================
          DOŁĄCZENIE ARKUSZY STYLÓW I SKRYPTÓW
          ==================================================================== -->
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
     <script src="scripts/kolorujtlo.js"></script>
     <script src="scripts/timedate.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -82,6 +82,7 @@
     include('cfg.php');             // Konfiguracja bazy danych
     include('showpage.php');        // Funkcja wyświetlania podstron
     include('admin/admin.php');     // Klasa panelu administratora
+    include('admin/admin_categories.php'); // Klasa zarządzania kategoriami
     include('php/contact.php');     // Klasa formularza kontaktowego
     
     // =========================================================================
@@ -105,6 +106,15 @@
     
     switch ($id) {
         
+        // -----------------------------------------------------------------
+        // -----------------------------------------------------------------
+        // ZARZADZANIE KATEGORIAMI
+        // -----------------------------------------------------------------
+        case -8:
+            $catManager = new ZarzadzanieKategoriami();
+            echo $catManager->Zarzadzaj();
+            break;
+
         // -----------------------------------------------------------------
         // PANEL LOGOWANIA ADMINISTRATORA
         // -----------------------------------------------------------------

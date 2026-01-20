@@ -384,3 +384,231 @@ tr:hover {
 .video {
   margin: auto;
 }
+
+/* === PANEL ADMINISTRACYJNY (Modernizacja) === */
+
+/* Główny kontener - tło i odstępy */
+.admin-container {
+    background: #fff;
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 20px rgba(0,0,0,0.08); /* Delikatniejszy cień */
+    margin: 30px auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #4a5568;
+}
+
+/* Wariant dla formularzy - wyśrodkowany, węższy (jak Kontakt) */
+.admin-container.centered {
+    max-width: 600px;
+    border-top: 4px solid #3498db; /* Akcent kolorystyczny na górze */
+}
+
+/* Wariant dla dashboardu/tabel - szerszy */
+.admin-container.wide {
+    max-width: 1200px;
+    border-top: 4px solid #2c3e50;
+}
+
+/* Pasek nawigacyjny w panelu */
+.admin-nav {
+    background: #f8f9fa;
+    padding: 15px 20px;
+    border-radius: 8px;
+    margin-bottom: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #e2e8f0;
+}
+
+.admin-nav-links a {
+    text-decoration: none;
+    color: #4a5568;
+    font-weight: 600;
+    margin-right: 20px;
+    font-size: 0.95em;
+    padding: 8px 12px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.admin-nav-links a:hover, .admin-nav-links a.active {
+    background: #e2e8f0;
+    color: #2b6cb0;
+}
+
+.admin-header {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2d3748;
+    font-size: 2em;
+    font-weight: 300;
+    border-bottom: 0; /* Usunięcie linii z poprzedniej wersji */
+}
+
+/* Nowoczesne tabele */
+.admin-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin-bottom: 25px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.admin-table th {
+    background-color: #f7fafc;
+    color: #4a5568;
+    padding: 18px 20px;
+    text-align: left;
+    font-weight: 700;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid #e2e8f0;
+}
+
+.admin-table td {
+    padding: 16px 20px;
+    border-bottom: 1px solid #edf2f7;
+    color: #4a5568;
+    font-size: 0.95em;
+}
+
+.admin-table tr:last-child td {
+    border-bottom: none;
+}
+
+.admin-table tr:hover {
+    background-color: #f8fafc;
+}
+
+/* Przyciski (ulepszone) */
+/* Przyciski (ulepszone - styl spójny z Kontakt) */
+.btn {
+    background-color: #3498db; /* Default to primary blue if no modifier */
+    color: white;
+    padding: 12px 30px; /* Exact match to .submit-btn */
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    display: inline-block;
+    text-align: center;
+    line-height: normal; /* Reset line-height */
+}
+
+.btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: none; /* .submit-btn doesn't have shadow in base, but we can keep it if desired or remove for exact match. Removing to match .submit-btn exactly based on request */
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Kolorystyka przycisków */
+.btn-edit {
+    background-color: #f39c12; /* Wyrazisty pomarańczowy */
+    color: white;
+}
+.btn-edit:hover {
+    background-color: #e67e22;
+}
+
+.btn-delete {
+    background-color: #e74c3c; /* Czysta czerwień */
+    color: white;
+}
+.btn-delete:hover {
+    background-color: #c0392b;
+}
+
+.btn-primary {
+    background-color: #3498db; /* Główny niebieski (jak w Kontakt) */
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #2980b9;
+}
+
+.btn-success {
+    background-color: #2ecc71; /* Czysta zieleń */
+    color: white;
+}
+.btn-success:hover {
+    background-color: #27ae60;
+}
+
+/* Mniejsze przyciski w tabelach */
+.admin-table .btn {
+    padding: 6px 14px;
+    font-size: 0.85em;
+    margin: 2px;
+}
+
+/* Formularze (czystość i czytelność) - jak Kontakt */
+.admin-form-group {
+    margin-bottom: 25px;
+}
+
+.admin-form-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #4a5568;
+    font-weight: 600;
+    font-size: 0.95em;
+}
+
+.admin-form-group input[type="text"],
+.admin-form-group input[type="password"],
+.admin-form-group input[type="number"],
+.admin-form-group textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border: 2px solid #e2e8f0;
+    border-radius: 6px;
+    font-size: 1em;
+    color: #2d3748;
+    background: #fcfcfc;
+    transition: border-color 0.2s ease;
+    box-sizing: border-box; /* Ważne dla paddingu */
+}
+
+.admin-form-group input:focus,
+.admin-form-group textarea:focus {
+    border-color: #4299e1;
+    outline: none;
+    background: #fff;
+}
+
+.admin-actions {
+    margin-top: 30px;
+    text-align: right; /* Przyciski z prawej strony */
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+}
+
+.category-tree {
+    background: #f7fafc;
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid #edf2f7;
+}
+
+/* Wiadomości logowania */
+.login-message {
+    padding: 15px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 500;
+}

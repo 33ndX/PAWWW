@@ -11,7 +11,7 @@
     <!-- ====================================================================
          DOŁĄCZENIE ARKUSZY STYLÓW I SKRYPTÓW
          ==================================================================== -->
-    <link rel="stylesheet" href="./css/style.css">
+    <link rel="stylesheet" href="css/style.css?v=<?php echo time(); ?>">
     <script src="scripts/kolorujtlo.js"></script>
     <script src="scripts/timedate.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -82,6 +82,8 @@
     include('cfg.php');             // Konfiguracja bazy danych
     include('showpage.php');        // Funkcja wyświetlania podstron
     include('admin/admin.php');     // Klasa panelu administratora
+    include('admin/admin_categories.php'); // Klasa zarządzania kategoriami
+    include('admin/admin_products.php'); // Klasa zarządzania produktami (Sklep)
     include('php/contact.php');     // Klasa formularza kontaktowego
     
     // =========================================================================
@@ -105,6 +107,38 @@
     
     switch ($id) {
         
+        // -----------------------------------------------------------------
+        // -----------------------------------------------------------------
+        // ZARZADZANIE KATEGORIAMI
+        // -----------------------------------------------------------------
+        case -8:
+            $catManager = new ZarzadzanieKategoriami();
+            echo $catManager->Zarzadzaj();
+            break;
+
+        // -----------------------------------------------------------------
+        // ZARZADZANIE PRODUKTAMI (SKLEP)
+        // -----------------------------------------------------------------
+        case -9:
+            $prodManager = new ProductManagement();
+            echo $prodManager->Zarzadzaj();
+            break;
+
+        // -----------------------------------------------------------------
+        // STRONY STATYCZNE I SKRYPTY (Fix dla JQuary i innych)
+        // -----------------------------------------------------------------
+        case 7:
+            include('html/skryptyJS.html');
+            break;
+            
+        case 8:
+            include('html/JQuary.html');
+            break;
+            
+        case 10:
+            include('html/labor_175281_ISI2.php');
+            break;
+
         // -----------------------------------------------------------------
         // PANEL LOGOWANIA ADMINISTRATORA
         // -----------------------------------------------------------------

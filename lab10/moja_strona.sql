@@ -24,6 +24,42 @@ SET time_zone = "+00:00";
 -- --------------------------------------------------------
 
 --
+-- Struktura tabeli dla tabeli `categories`
+--
+
+CREATE TABLE `categories` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `matka` int(11) NOT NULL DEFAULT 0,
+  `nazwa` varchar(255) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Zrzut danych tabeli `categories`
+--
+
+INSERT INTO `categories` (`id`, `matka`, `nazwa`) VALUES
+(1, 0, 'Elektronika'),
+(2, 0, 'Odzież'),
+(3, 0, 'Dom i Ogród'),
+(4, 0, 'Sport'),
+(5, 1, 'Smartfony'),
+(6, 1, 'Laptopy'),
+(7, 1, 'Telewizory'),
+(8, 2, 'Ubrania męskie'),
+(9, 2, 'Ubrania damskie'),
+(10, 2, 'Ubrania dziecięce'),
+(11, 3, 'Meble'),
+(12, 3, 'Narzędzia'),
+(13, 4, 'Piłka nożna'),
+(14, 4, 'Siłownia'),
+(17, 0, 'test'),
+(19, 0, 'gsdfgds'),
+(20, 19, 'asdgsd');
+
+-- --------------------------------------------------------
+
+--
 -- Struktura tabeli dla tabeli `page_list`
 --
 
